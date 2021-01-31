@@ -29,6 +29,18 @@ classdef Samples
            n = length(X);
            pdf_s = 1/(2*pi)^n/2 / det(obj.cov_mat) ^ 0.5 * exp(-0.5 * (X - obj.M)' * obj.cov_mat ^ (-1) * (X - obj.M));
         end
+       
+        function h = discrimination_function(obj, B, class_num)
+            
+            h = -log(obj.mvnpdf_vals' ./ mvnpdf(obj.samples', B.M', B.cov_mat));
+            
+            if class_num == 1
+                return;
+            else
+                h = -h;
+                return;
+            end
+        end
     end
 end
 
