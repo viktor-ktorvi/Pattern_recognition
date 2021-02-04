@@ -7,6 +7,7 @@ classdef Samples
         sigma
         cov_mat
         mvnpdf_vals
+        rho
     end
     
     methods
@@ -14,6 +15,7 @@ classdef Samples
             obj.num = num_samples;
             obj.M = M;
             obj.sigma = sigma;
+            obj.rho = rho;
             obj.cov_mat = (rho*(ones(2,2) - eye(2)) + eye(2)) .* (sigma*sigma');
             
             obj.samples = M + obj.cov_mat^0.5 * randn(2, obj.num);
