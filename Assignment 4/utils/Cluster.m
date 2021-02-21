@@ -12,15 +12,23 @@ classdef Cluster < handle
     end
     
     methods
-        function obj = Cluster(all_samples, L)
+        function obj = Cluster(all_samples, L, initialization_name, centers)
             my_shuffle = @(v)v(:, randperm(length(v)));
             obj.all_samples = my_shuffle(all_samples);
             obj.L = L;
 
             obj.labels = zeros(length(all_samples), 1);
             
-            for i = 1:length(all_samples)
-                obj.labels(i) = randi(L);
+            if strcmp(initialization_name, 'stochastic')
+                for i = 1:length(all_samples)
+                    obj.labels(i) = randi(L);
+                end
+            elseif strcmp(initialization_name, 'mountain')
+                for i = 1:length(all_samples)
+                    
+                    [~, argmin] = min(sum((centers - obj.all_samples(:, i)).^2, 1));
+                    obj.labels(i) = argmin;
+                end
             end
             
             obj.M = cell(L, 1);

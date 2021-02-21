@@ -90,7 +90,7 @@ ylabel("$x_2$")
 
 syms x1 x2
 Z = [1;x1;x2;x1^2;x1*x2;x2^2];
-fimplicit(W' * Z); labels{end + 1} = "$h(x) = W^T X$";
+fimplicit(W' * Z); labels{end + 1} = "$h(Z) = W^T Z$";
 legend(labels)
 %%
 G(training_labels == 2) = G(training_labels == 2) * 2;
@@ -106,5 +106,5 @@ ylabel("$x_2$")
 
 syms x1 x2
 Z = [1;x1;x2;x1^2;x1*x2;x2^2];
-fimplicit(W' * Z); labels{end + 1} = "$h(x) = W^T X$";
+fimplicit(W' * Z); labels{end + 1} = "$h(Z) = W^T Z$";
 legend(labels)
