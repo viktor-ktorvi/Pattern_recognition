@@ -70,26 +70,8 @@ ylabel("$x_2$")
 % J = @(X, P, M, S) ((X - M)' * (X - M));
 J = @(X, P, M, S) (0.5 * (-log(P) + log(det(S)) + (X - M)' * S^(-1) * (X - M)));
 max_iter = 100;
-for l = 1:max_iter
-    prev_cluster = cl.labels;
-    for i = 1:length(cl.all_samples)
-        X = cl.all_samples(:, i);
-        J_vals = zeros(cl.L, 1);
-        for j = 1:cl.L
-            J_vals(j) = J(X, cl.P{j}, cl.M{j}, cl.S{j});
-        end
-        [~, arg_minimum] = min(J_vals);
-        cl.labels(i) = arg_minimum;
-    end
-    cl.calc_params();
-    
-    if cl.labels == prev_cluster
-        disp('Zavrsio normalno')
-        break;
-    end
-end
+cl.quadratic_decomposition(J, max_iter);
 %%
-disp('ovde')
 figure
 cl.plot(markers)
 title("Klasterizacija")

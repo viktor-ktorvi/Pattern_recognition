@@ -1,5 +1,5 @@
 classdef Cluster < handle
-    %CLUSTER Summary of this class goes here
+    %cluSTER Summary of this objass goes here
     %   Detailed explanation goes here
     
     properties
@@ -52,6 +52,27 @@ classdef Cluster < handle
                 obj.M{i} = mean(obj.all_samples(:, obj.labels == i), 2);
                 obj.S{i} = cov(obj.all_samples(:, obj.labels == i)');
                 obj.P{i} = length(obj.labels(obj.labels == i)) / length(obj.labels);
+            end
+        end
+        
+        function  obj = quadratic_decomposition(obj, J, max_iter)
+            for l = 1:max_iter
+                prev_cluster = obj.labels;
+                for i = 1:length(obj.all_samples)
+                    X = obj.all_samples(:, i);
+                    J_vals = zeros(obj.L, 1);
+                    for j = 1:obj.L
+                        J_vals(j) = J(X, obj.P{j}, obj.M{j}, obj.S{j});
+                    end
+                    [~, arg_minimum] = min(J_vals);
+                    obj.labels(i) = arg_minimum;
+                end
+                obj.calc_params();
+
+                if obj.labels == prev_cluster
+                    disp('Zavrsio')
+                    break;
+                end
             end
         end
     end
