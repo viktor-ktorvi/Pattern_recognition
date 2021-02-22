@@ -55,7 +55,7 @@ classdef Cluster < handle
             end
         end
         
-        function  obj = quadratic_decomposition(obj, J, max_iter)
+        function  l = quadratic_decomposition(obj, J, max_iter)
             for l = 1:max_iter
                 prev_cluster = obj.labels;
                 for i = 1:length(obj.all_samples)
